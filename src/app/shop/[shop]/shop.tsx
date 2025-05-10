@@ -4,10 +4,10 @@ import { useState } from "react";
 import FiltersComponent from "../../../../components/filter-categories";
 import SortDropdown from "../../../../components/sort-dropdown";
 import OverviewProductCard from "../../../../components/overview-product-card";
-import { SHOP_NAME } from "./constants";
+import { SHOP_NAME, SHOPNAME } from "./constants";
 
 interface ShopProps {
-  shopName: keyof typeof SHOP_NAME;
+  shopName: SHOPNAME;
 }
 const Shop: React.FC<ShopProps> = ({ shopName }) => {
   const [sortValue, setSortValue] = useState("popular");
@@ -66,8 +66,9 @@ const Shop: React.FC<ShopProps> = ({ shopName }) => {
                   .map((_, index) => (
                     <OverviewProductCard
                       key={index}
+                      id={index}
                       name="Men’s Winter Jacket"
-                      shop="M"
+                      shop={shopName}
                       price="$99"
                     />
                   ))}
