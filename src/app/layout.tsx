@@ -23,7 +23,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${inter.variable} antialiased`}>
         <Header />
-        {children}
+        <main className="pt-[89px]">{children}</main>
         <Footer />
       </body>
     </html>

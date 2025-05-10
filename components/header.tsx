@@ -5,9 +5,11 @@ import Link from "next/link";
 import MobileMenu from "./mobile-menu";
 import { useEffect, useState } from "react";
 import DropdownShopMenu from "./dropdown-shop-menu";
+import { usePathname } from "next/navigation";
 
 const Header: React.FC = () => {
   const [isScrolled, setIsScrolled] = useState(false);
+  const pathname = usePathname();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -51,8 +53,12 @@ const Header: React.FC = () => {
       <div
         className={`w-full transition-all duration-300 ${
           isScrolled
-            ? "bg-background shadow-sm"
-            : "bg-background border-b border-gray-200"
+            ? pathname === "/"
+              ? "bg-background shadow-sm"
+              : "bg-black shadow-sm text-white"
+            : pathname === "/"
+              ? "bg-background border-b border-gray-200"
+              : "bg-black text-white"
         }`}
       >
         <div className="container mx-auto px-4 py-4 flex items-center justify-between">
