@@ -3,10 +3,10 @@ import SecondHero from "./second-hero";
 
 const Home: React.FC = () => {
   return (
-    <main className="min-h-screen pt-16 md:pt-20">
+    <section>
       <FirstHero />
       <SecondHero />
-    </main>
+    </section>
   );
 };
 export default Home;
