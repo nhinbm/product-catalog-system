@@ -1,10 +1,11 @@
 "use client";
 
 import { useState } from "react";
-import FiltersComponent from "../../../../components/filter-categories";
-import SortDropdown from "../../../../components/sort-dropdown";
-import OverviewProductCard from "../../../../components/overview-product-card";
+
 import { SHOP_NAME, SHOPNAME } from "./constants";
+import FiltersComponent from "@/components/filter-categories";
+import SortDropdown from "@/components/sort-dropdown";
+import OverviewProductCard from "@/components/overview-product-card";
 
 interface ShopProps {
   shopName: SHOPNAME;
