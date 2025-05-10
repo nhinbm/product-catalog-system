@@ -1,4 +1,4 @@
-import HeroSection from "../../components/hero-section";
+import HeroSection from "@/components/hero-section";
 
 const SecondHero: React.FC = () => {
   return (

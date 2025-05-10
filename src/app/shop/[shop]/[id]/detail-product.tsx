@@ -1,13 +1,13 @@
-import ProductCarousel from "../../../../../components/product-carousel";
+import ProductCarousel from "@/components/product-carousel";
+import { IMAGES_CAROUSE_CONSTANT } from "./constants";
+import { Minus, Plus } from "lucide-react";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "../../../../../components/ui/select";
-import { IMAGES_CAROUSE_CONSTANT } from "./constants";
-import { Minus, Plus } from "lucide-react";
+} from "@/components/ui/select";
 
 interface DetailProductProps {
   id: string;
