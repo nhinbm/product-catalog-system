@@ -4,6 +4,7 @@ import { Search, ShoppingBag } from "lucide-react";
 import Link from "next/link";
 import MobileMenu from "./mobile-menu";
 import { useEffect, useState } from "react";
+import DropdownShopMenu from "./dropdown-shop-menu";
 
 const Header: React.FC = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -60,9 +61,9 @@ const Header: React.FC = () => {
               Ecommerce
             </Link>
             <nav className="hidden md:flex items-center space-x-8">
-              <Link href="/shop" className="text-sm">
-                Shop
-              </Link>
+              <DropdownShopMenu>
+                <button className="text-sm">Shop</button>
+              </DropdownShopMenu>
               <Link href="/stories" className="text-sm">
                 Stories
               </Link>
