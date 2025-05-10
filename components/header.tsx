@@ -57,8 +57,8 @@ const Header: React.FC = () => {
               ? "bg-background shadow-sm"
               : "bg-black shadow-sm text-white"
             : pathname === "/"
-              ? "bg-background border-b border-gray-200"
-              : "bg-black text-white"
+              ? "bg-background border-b border-white"
+              : "bg-black text-white border-b border-white"
         }`}
       >
         <div className="container mx-auto px-4 py-4 flex items-center justify-between">
