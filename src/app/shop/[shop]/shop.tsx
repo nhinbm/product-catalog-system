@@ -1,16 +1,21 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { SHOP_NAME, SHOPNAME } from "./constants";
 import FiltersComponent from "@/components/filter-categories";
 import SortDropdown from "@/components/sort-dropdown";
 import OverviewProductCard from "@/components/overview-product-card";
+import { getAllProducts } from "@/services/product.services";
+import { Product } from "@/types/product.types";
 
 interface ShopProps {
   shopName: SHOPNAME;
 }
 const Shop: React.FC<ShopProps> = ({ shopName }) => {
+  const [products, setProducts] = useState<Product[]>([]);
+  const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
   const [sortValue, setSortValue] = useState("popular");
   const [activeFilters, setActiveFilters] = useState<Record<string, boolean>>(
     {}
@@ -18,11 +23,38 @@ const Shop: React.FC<ShopProps> = ({ shopName }) => {
 
   const handleFiltersChange = (filters: Record<string, boolean>) => {
     setActiveFilters(filters);
-
-    const selectedFilters = Object.entries(filters)
-      .filter(([_, isActive]) => isActive)
-      .map(([category]) => category);
   };
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        setIsLoading(true);
+        const allProducts = await getAllProducts(shopName);
+        setProducts(allProducts);
+      } catch (error) {
+        console.error("Error fetching products:", error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchProducts();
+  }, [shopName]);
+
+  useEffect(() => {
+    const selectedCategories = Object.entries(activeFilters)
+      .filter(([, isActive]) => isActive)
+      .map(([category]) => category);
+    console.log(activeFilters);
+    if (selectedCategories.length === 0) {
+      setFilteredProducts(products);
+    } else {
+      const filtered = products.filter(
+        (product) => activeFilters[product.category]
+      );
+      setFilteredProducts(filtered);
+    }
+  }, [activeFilters, products]);
 
   return (
     <section>
@@ -56,29 +88,25 @@ const Shop: React.FC<ShopProps> = ({ shopName }) => {
                 <div className="flex flex-col ml-auto items-end">
                   <SortDropdown value={sortValue} onChange={setSortValue} />
                   <div className="text-sm text-gray-600">
-                    Showing 1003 Products
+                    Showing {filteredProducts.length} Products
                   </div>
                 </div>
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                {Array(6)
-                  .fill(0)
-                  .map((_, index) => (
+                {filteredProducts.length && !isLoading ? (
+                  filteredProducts.map((info) => (
                     <OverviewProductCard
-                      key={index}
-                      id={index}
-                      name="Men’s Winter Jacket"
+                      key={info._id}
+                      id={info._id}
+                      name={info.name}
                       shop={shopName}
-                      price="$99"
+                      price={info.price}
                     />
-                  ))}
-              </div>
-
-              <div className="flex justify-center mt-10">
-                <button className="px-10 py-6 h-auto bg-transparent text-black border border-black hover:bg-black hover:text-white transition text-sm font-medium">
-                  Load more products
-                </button>
+                  ))
+                ) : (
+                  <div>No Products Found!</div>
+                )}
               </div>
             </div>
           </div>

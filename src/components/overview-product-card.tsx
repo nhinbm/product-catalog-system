@@ -3,10 +3,10 @@
 import { useRouter } from "next/navigation";
 
 interface OverviewProductCardProps {
-  id: number;
+  id: string;
   name: string;
   shop: string;
-  price: string;
+  price: number;
 }
 const OverviewProductCard: React.FC<OverviewProductCardProps> = ({
   id,
@@ -28,7 +28,7 @@ const OverviewProductCard: React.FC<OverviewProductCardProps> = ({
           <h3 className="font-medium">{name}</h3>
           <span className="text-sm">{shop}</span>
         </div>
-        <p className="font-medium mt-1">{price}</p>
+        <p className="font-medium mt-1">${price}</p>
       </div>
     </div>
   );

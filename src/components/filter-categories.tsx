@@ -12,31 +12,47 @@ interface FiltersComponentProps {
 export default function FiltersComponent({
   onFiltersChange,
 }: FiltersComponentProps) {
-  const [categories, setCategories] = useState({
-    Jackets: false,
-    Fleece: false,
-    "Sweatshirts & Hoodies": false,
-    Sweaters: false,
-    Shirts: false,
-    "T-Shirts": false,
-    "Pants & Jeans": false,
+  const [categories, setCategories] = useState<
+    Record<string, { name: string; checked: boolean }>
+  >({
+    jackets: { name: "Jackets", checked: false },
+    fleece: { name: "Fleece", checked: false },
+    "sweatshirts-hoodies": { name: "Sweatshirts & Hoodies", checked: false },
+    sweaters: { name: "Sweaters", checked: false },
+    shirts: { name: "Shirts", checked: false },
+    "t-shirts": { name: "T-Shirts", checked: false },
+    "pants-jeans": { name: "Pants & Jeans", checked: false },
   });
 
-  const handleCategoryChange = (category: string) => {
+  const handleCategoryChange = (categoryKey: string) => {
     const newCategories = {
       ...categories,
-      [category]: !categories[category as keyof typeof categories],
+      [categoryKey]: {
+        ...categories[categoryKey],
+        checked: !categories[categoryKey].checked,
+      },
     };
     setCategories(newCategories);
-    onFiltersChange?.(newCategories);
+
+    const activeFilters = Object.fromEntries(
+      Object.entries(newCategories)
+        .filter(([, value]) => value.checked)
+        .map(([key]) => [key, true])
+    );
+
+    onFiltersChange?.(activeFilters);
   };
 
   const clearFilters = () => {
     const clearedCategories = Object.fromEntries(
-      Object.keys(categories).map((key) => [key, false])
+      Object.entries(categories).map(([key, value]) => [
+        key,
+        { ...value, checked: false },
+      ])
     );
-    setCategories(clearedCategories as typeof categories);
-    onFiltersChange?.(clearedCategories);
+    setCategories(clearedCategories);
+
+    onFiltersChange?.({});
   };
 
   return (
@@ -55,15 +71,15 @@ export default function FiltersComponent({
       <div className="mb-6">
         <h3 className="text-base font-bold mb-2">Categories</h3>
         <div className="space-y-2">
-          {Object.entries(categories).map(([category, checked]) => (
+          {Object.entries(categories).map(([category, info]) => (
             <div key={category} className="flex items-center space-x-2">
               <Checkbox
                 id={category}
-                checked={checked}
+                checked={info.checked}
                 onCheckedChange={() => handleCategoryChange(category)}
               />
               <Label
-                htmlFor={category}
+                htmlFor={info.name}
                 className="text-sm font-normal leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
               >
                 {category}
