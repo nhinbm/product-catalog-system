@@ -11,3 +11,14 @@ export const getAllProducts = async (shop: string): Promise<Product[]> => {
     throw new Error("Failed to fetch products");
   }
 };
+
+export const getProductById = async (id: string): Promise<Product | null> => {
+  const query = `*[_type == "product" && _id == $id][0]`;
+  try {
+    const product: Product = await client.fetch(query, { id });
+    return product || null;
+  } catch (error) {
+    console.error("Error fetching product by ID from Sanity:", error);
+    throw new Error("Failed to fetch product by ID");
+  }
+};
