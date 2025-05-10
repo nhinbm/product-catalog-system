@@ -1,15 +1,27 @@
+"use client";
+
+import { useRouter } from "next/navigation";
+
 interface OverviewProductCardProps {
+  id: number;
   name: string;
   shop: string;
   price: string;
 }
 const OverviewProductCard: React.FC<OverviewProductCardProps> = ({
+  id,
   name,
   shop,
   price,
 }) => {
+  const router = useRouter();
+
+  const handleClick = () => {
+    router.push(`/shop/${shop}/${id}`);
+  };
+
   return (
-    <div className="bg-transparent overflow-hidden">
+    <div className="bg-transparent overflow-hidden" onClick={handleClick}>
       <div className="aspect-square bg-gray-300"></div>
       <div className="pt-2">
         <div className="flex justify-between items-center">
